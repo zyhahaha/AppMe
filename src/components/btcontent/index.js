@@ -23,7 +23,7 @@ export default () => {
             data: { keyword, pageIndex, pageSize, status, hot_count }
         };
         axios(options).then(response => {
-            console.log(response.data.data.total, response.data.data.parseTotal, response.data.data.list)
+            // console.log(response.data.data.total, response.data.data.parseTotal, response.data.data.list)
             const resData = response.data.data
             const resCountTemp = resData.total || 0
             const resParseCountTemp = resData.parseTotal || 0
@@ -42,15 +42,15 @@ export default () => {
     }
 
     loopId ++
-    function loopRunFn() {
-        if (loopId !== 1) return false
+    function loopRunFn(scopeLoopId) {
+        if (scopeLoopId !== 1) return false
         queryDataServer('', 1, 10, 9, 9000, () => {
             setTimeout(() => {
-                loopRunFn()
+                loopRunFn(scopeLoopId)
             }, 5000)
         })
     }
-    loopRunFn()
+    loopRunFn(loopId)
 
     const onUpdateSearch = (keyword) => {
         setSearchKeyword(keyword);
@@ -111,7 +111,7 @@ export default () => {
                             <View style={{ marginLeft: 10 }}>
                                 <Text>搜索结果共{resKeywordCount}条</Text>
                             </View>
-                        )
+                        ) || []
                     }
                     {
                         resultList.map((resultItem, resultIndex) => {
