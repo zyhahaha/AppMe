@@ -8,12 +8,13 @@ import {
     Linking,
     ToastAndroid
 } from 'react-native';
-import { Text, SearchBar, Button } from '@rneui/themed';
+import { Text, SearchBar, Button, Dialog } from '@rneui/themed';
 import * as Clipboard from 'expo-clipboard'
 
 let loopId = 0
 let isInitData = false
 export default () => {
+    const [lodingVisible, setLoadingVisible] = React.useState(false);
     const [searchKeyword, setSearchKeyword] = React.useState("");
     const [resultList, setResultList] = React.useState([]);
     const [resCount, setResCount] = React.useState(0);
@@ -26,6 +27,7 @@ export default () => {
             method: 'POST',
             data: { keyword, pageIndex, pageSize, status, hot_count }
         };
+        !isInitData && setLoadingVisible(true);
         axios(options).then(response => {
             // console.log(response.data.data.total, response.data.data.parseTotal, response.data.data.list)
             const resData = response.data.data
@@ -44,6 +46,7 @@ export default () => {
             isInitData = true
         }).catch(error => { }).finally(() => {
             nextFn && nextFn()
+            setLoadingVisible(false);
         })
     }
     function queryDataServer(keyword, pageIndex = 1, pageSize = 20, status = 9, hot_count = 0, nextFn) {
@@ -89,10 +92,17 @@ export default () => {
             queryDataServer(keyword)
         }
     };
+    const toggleLodingDialog = () => {
+        setLoadingVisible(!lodingVisible);
+    };
     return (
         <>
             <SafeAreaView>
                 <ScrollView>
+                    <Dialog isVisible={lodingVisible} onBackdropPress={toggleLodingDialog}>
+                        <Dialog.Loading />
+                    </Dialog>
+
                     <View style={{
                         paddingTop: 100,
                         paddingBottom: 30
