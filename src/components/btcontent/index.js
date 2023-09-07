@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'react-native-axios';
 import {
     SafeAreaView,
     ScrollView,
@@ -9,17 +10,47 @@ import { Text, SearchBar, PricingCard, lightColors } from '@rneui/themed';
 // import ImageViewer from 'react-native-image-zoom-viewer';
 // import medicineList from './data/medicine.js.js'
 
-const medicineList = []
+// const medicineList = []
 export default () => {
-    const [searchKeyword, setSearchKeyword] = React.useState("111");
-    const [resultList, setResultList] = React.useState([{ name: 'aaa', type: '999' }]);
+    const [searchKeyword, setSearchKeyword] = React.useState("");
+    const [resultList, setResultList] = React.useState([]);
+    const [resCount, setResCount] = React.useState(0);
+    const [resParseCount, setResParseCount] = React.useState(0);
+    const [resKeywordCount, setResKeywordCount] = React.useState(0);
 
     const onUpdateSearch = (keyword) => {
         setSearchKeyword(keyword);
 
         if (keyword) {
-            const resultList = medicineList.filter(v => v.name.includes(keyword))
-            setResultList(resultList)
+            const options = {
+                url: 'http://119.96.189.81:8877/powerful/list',
+                method: 'POST',
+                data: { keyword, pageIndex: 1, pageSize: 20, status: 9, hot_count: 0 }
+            };
+            axios(options).then(response => {
+                console.log(response.data.data.total, response.data.data.parseTotal)
+                const resData = response.data.data
+                const resCountTemp = resData.total || 0
+                const resParseCountTemp = resData.parseTotal || 0
+                const resKeywordCountTemp = resData.keywordTotal || 0
+                const resultListTemp = resData.list || []
+                setResCount(resCountTemp)
+                setResParseCount(resParseCountTemp)
+                setResKeywordCount(resKeywordCountTemp)
+
+                setTimeout(() => {
+                    setResultList(resultListTemp)
+                }, 0)
+                // nextFn && nextFn(response.data.data.list)
+
+                // if (pageIndex > 100) pageIndex = 1
+                // if (!response.data.data.list.length) pageIndex = 1
+            })
+                .catch(error => {
+                })
+
+            // const resultList = medicineList.filter(v => v.name.includes(keyword))
+            // setResultList(resultList)
         }
     };
     return (
@@ -30,42 +61,19 @@ export default () => {
                         paddingTop: 100,
                         paddingBottom: 30
                     }}>
-                        {/* <Text style={{
-                            width: '100%',
-                            fontSize: 22,
-                            textAlign: 'center'
-                        }}>总数据</Text> */}
                         <Text style={{
                             width: '100%',
                             fontSize: 30,
                             fontWeight: 'bold',
                             textAlign: 'center',
                             color: 'rgb(173, 20, 87)'
-                        }}>394898213</Text>
+                        }}>{resCount}</Text>
                         <Text style={{
                             width: '100%',
                             fontSize: 14,
                             textAlign: 'center',
                             color: 'rgb(134, 147, 158)'
-                        }}>已解析：234234</Text>
-                        {/* <Text style={{
-                            width: '100%',
-                            fontSize: 14,
-                            textAlign: 'center'
-                        }}>453453</Text> */}
-
-                        {/* <PricingCard
-                            color={lightColors.primary}
-                            title="Free"
-                            price="82394898213"
-                            info={['453453']}
-                            button={{ title: ' GET STARTED', icon: 'flight-takeoff' }}
-
-                            containerStyle={{
-                                backgroundColor: 'transparent',
-                                borderColor: '#F5F5F5'
-                            }}
-                        /> */}
+                        }}>已解析：{resParseCount}</Text>
                     </View>
                     {/* 搜索关键字 */}
                     <View style={{
@@ -93,6 +101,13 @@ export default () => {
                         />
                     </View>
                     {
+                        searchKeyword && (
+                            <View style={{ marginLeft: 10 }}>
+                                <Text>搜索结果共{resKeywordCount}条</Text>
+                            </View>
+                        )
+                    }
+                    {
                         searchKeyword && resultList.map((resultItem, resultIndex) => {
                             return (
                                 <View key={resultIndex.toString()} style={{
@@ -108,7 +123,7 @@ export default () => {
                                     }}>
                                         <Text style={{
                                             fontSize: 14
-                                        }}>Mastering the MixMastering the MixMastering the MixMastering the MixMastering the Mix</Text>
+                                        }}>{resultItem.content_two}</Text>
 
                                         <View style={{
                                             paddingTop: 10,
@@ -119,7 +134,7 @@ export default () => {
                                                 flex: 9,
                                                 fontSize: 12,
                                                 color: '#8F8F8F'
-                                            }}>magnet:?xt=urn:btih:{resultItem.aaa || '9CD324BC7CD41B361F1F6D2701D8081856861960'}</Text>
+                                            }}>magnet:?xt=urn:btih:{resultItem.content}</Text>
                                             <Text style={{
                                                 flex: 1,
                                                 fontSize: 14,
@@ -137,7 +152,7 @@ export default () => {
                                             }}>
                                                 <Text style={{
                                                     fontSize: 14
-                                                }}>热度：9999</Text>
+                                                }}>热度：{resultItem.hot_count}</Text>
                                             </View>
                                             <View style={{
                                                 flexDirection: 'row',
@@ -148,8 +163,16 @@ export default () => {
                                                     width: '100%',
                                                     fontSize: 14,
                                                     textAlign: 'right'
-                                                }}>创建时间：2023-09-06 23:25:56</Text>
+                                                }}>文件大小：{resultItem.content_three}</Text>
                                             </View>
+                                        </View>
+                                        <View style={{
+                                            paddingTop: 5
+                                        }}>
+                                            <Text style={{
+                                                width: '100%',
+                                                fontSize: 14,
+                                            }}>创建时间：{resultItem.createTime}</Text>
                                         </View>
                                     </View>
                                 </View>
