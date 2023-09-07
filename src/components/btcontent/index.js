@@ -151,10 +151,7 @@ export default () => {
                                                 onPress={async () => {
                                                     await Clipboard.setStringAsync(`magnet:?xt=urn:btih:${resultItem.content}`)
  
-                                                    // Toast.show('复制成功', {
-                                                    //     duration: 3000,
-                                                    //     position: Toast.positions.CENTER,
-                                                    // })
+                                                    ToastAndroid.show('复制成功', ToastAndroid.SHORT, ToastAndroid.CENTER)
                                                     const url = 'thunder://'
                                                     const supported = await Linking.canOpenURL(url);
                                                     supported && await Linking.openURL(url);
