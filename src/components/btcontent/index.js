@@ -150,11 +150,11 @@ export default () => {
                                                 }}
                                                 onPress={async () => {
                                                     await Clipboard.setStringAsync(`magnet:?xt=urn:btih:${resultItem.content}`)
- 
                                                     ToastAndroid.show('复制成功', ToastAndroid.SHORT, ToastAndroid.CENTER)
-                                                    const url = 'thunder://'
-                                                    const supported = await Linking.canOpenURL(url);
-                                                    supported && await Linking.openURL(url);
+
+                                                    // const url = 'thunder://'
+                                                    // const supported = await Linking.canOpenURL(url);
+                                                    // supported && await Linking.openURL(url);
                                                 }}
                                                 title="复制" type="clear"
                                             />
