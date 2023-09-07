@@ -1,27 +1,22 @@
 import React from 'react';
 import {
-    Modal,
-    SafeAreaView, ScrollView,
+    SafeAreaView,
+    ScrollView,
     StyleSheet,
     View,
-    ActivityIndicator
 } from 'react-native';
-import { Text, Image, SearchBar } from '@rneui/themed';
-import ImageViewer from 'react-native-image-zoom-viewer';
+import { Text, SearchBar, PricingCard, lightColors } from '@rneui/themed';
+// import ImageViewer from 'react-native-image-zoom-viewer';
 // import medicineList from './data/medicine.js.js'
 
 const medicineList = []
 export default () => {
-    const [imagesUrl, setImagesUrl] = React.useState([]);
-    const [imageIndex, setImageIndex] = React.useState(0);
-    const [modalVisible, setModalVisible] = React.useState(false);
-
-    const [searchKeyword, setSearchKeyword] = React.useState("");
-    const [resultList, setResultList] = React.useState([]);
+    const [searchKeyword, setSearchKeyword] = React.useState("111");
+    const [resultList, setResultList] = React.useState([{ name: 'aaa', type: '999' }]);
 
     const onUpdateSearch = (keyword) => {
         setSearchKeyword(keyword);
-        
+
         if (keyword) {
             const resultList = medicineList.filter(v => v.name.includes(keyword))
             setResultList(resultList)
@@ -31,12 +26,17 @@ export default () => {
         <>
             <SafeAreaView>
                 <ScrollView>
-                    {/* 搜索药品 */}
+                    <View style={{
+                        paddingTop: 100
+                    }}>
+
+                    </View>
+                    {/* 搜索关键字 */}
                     <View style={{
                     }}>
                         <SearchBar
                             platform="ios"
-                            placeholder="输入药品名"
+                            placeholder="输入关键字"
                             onChangeText={onUpdateSearch}
                             value={searchKeyword}
                             cancelButtonTitle="取消"
@@ -47,11 +47,12 @@ export default () => {
                                 fontSize: 14
                             }}
                             inputContainerStyle={{
-                                height: 38,
-                                margin: 10,
-                                backgroundColor: '#F5F5F5'
+                                // height: 38,
+                                // margin: 10,
+                                // backgroundColor: '#F5F5F5'
                             }}
                             containerStyle={{
+                                backgroundColor: 'transparent'
                             }}
                         />
                     </View>
@@ -62,20 +63,58 @@ export default () => {
                                     marginTop: 15,
                                     marginBottom: 15
                                 }}>
-            
+
                                     <View style={{
                                         marginLeft: 10,
-                                        padding: 10,
+                                        marginRight: 10,
+                                        padding: 15,
                                         backgroundColor: '#fff'
                                     }}>
                                         <Text style={{
                                             fontSize: 14
-                                        }}>药品名：{resultItem.name}</Text>
-                                        <Text style={{
-                                            marginTop: 5,
-                                            fontSize: 12,
-                                            color: '#8F8F8F'
-                                        }}>用药建议：{resultItem.type}</Text>
+                                        }}>Mastering the MixMastering the MixMastering the MixMastering the MixMastering the Mix</Text>
+
+                                        <View style={{
+                                            paddingTop: 10,
+                                            paddingBottom: 10,
+                                            flexDirection: 'row'
+                                        }}>
+                                            <Text style={{
+                                                flex: 9,
+                                                fontSize: 12,
+                                                color: '#8F8F8F'
+                                            }}>magnet:?xt=urn:btih:{resultItem.aaa || '9CD324BC7CD41B361F1F6D2701D8081856861960'}</Text>
+                                            <Text style={{
+                                                flex: 1,
+                                                fontSize: 14,
+                                                textAlign: 'right'
+                                            }}>复制</Text>
+                                        </View>
+
+                                        <View style={{
+                                            flexDirection: 'row'
+                                        }}>
+                                            <View style={{
+                                                flexDirection: 'row',
+                                                alignItems: 'center',
+                                                flex: 1,
+                                            }}>
+                                                <Text style={{
+                                                    fontSize: 14
+                                                }}>热度：9999</Text>
+                                            </View>
+                                            <View style={{
+                                                flexDirection: 'row',
+                                                alignItems: 'center',
+                                                flex: 3,
+                                            }}>
+                                                <Text style={{
+                                                    width: '100%',
+                                                    fontSize: 14,
+                                                    textAlign: 'right'
+                                                }}>创建时间：2023-09-06 23:25:56</Text>
+                                            </View>
+                                        </View>
                                     </View>
                                 </View>
                             )
@@ -83,32 +122,6 @@ export default () => {
                     }
                 </ScrollView>
             </SafeAreaView>
-
-            <View
-                style={{
-                    padding: 10
-                }}
-            >
-                <Modal
-                    visible={modalVisible}
-                    transparent={true}
-                    animationType="slide"
-                    statusBarTranslucent={true}
-                    onRequestClose={() => setModalVisible(false)}
-                >
-                    <ImageViewer
-                        imageUrls={imagesUrl}
-                        index={imageIndex}
-                        onSwipeDown={() => {
-                            () => setModalVisible(false)
-                        }}
-                        onClick={() => {
-                            setModalVisible(false)
-                        }}
-                        enableSwipeDown={true}
-                    />
-                </Modal>
-            </View>
         </>
     );
 };
