@@ -5,9 +5,11 @@ import {
     ScrollView,
     StyleSheet,
     View,
-    Linking
+    Linking,
+    ToastAndroid
 } from 'react-native';
 import { Text, SearchBar, Button } from '@rneui/themed';
+import * as Clipboard from 'expo-clipboard'
 
 let loopId = 0
 export default () => {
@@ -147,7 +149,13 @@ export default () => {
                                                     fontSize: 14,
                                                 }}
                                                 onPress={async () => {
-                                                    const url = 'thunder://80B39A2E37AA352CD2FCBFBEF7C4A6E9E8CFE438'
+                                                    await Clipboard.setStringAsync(`magnet:?xt=urn:btih:${resultItem.content}`)
+ 
+                                                    // Toast.show('复制成功', {
+                                                    //     duration: 3000,
+                                                    //     position: Toast.positions.CENTER,
+                                                    // })
+                                                    const url = 'thunder://'
                                                     const supported = await Linking.canOpenURL(url);
                                                     supported && await Linking.openURL(url);
                                                 }}
