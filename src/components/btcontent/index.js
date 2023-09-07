@@ -6,11 +6,8 @@ import {
     StyleSheet,
     View,
 } from 'react-native';
-import { Text, SearchBar, PricingCard, lightColors } from '@rneui/themed';
-// import ImageViewer from 'react-native-image-zoom-viewer';
-// import medicineList from './data/medicine.js.js'
+import { Text, SearchBar } from '@rneui/themed';
 
-// const medicineList = []
 export default () => {
     const [searchKeyword, setSearchKeyword] = React.useState("");
     const [resultList, setResultList] = React.useState([]);
@@ -41,16 +38,9 @@ export default () => {
                 setTimeout(() => {
                     setResultList(resultListTemp)
                 }, 0)
-                // nextFn && nextFn(response.data.data.list)
-
-                // if (pageIndex > 100) pageIndex = 1
-                // if (!response.data.data.list.length) pageIndex = 1
             })
                 .catch(error => {
                 })
-
-            // const resultList = medicineList.filter(v => v.name.includes(keyword))
-            // setResultList(resultList)
         }
     };
     return (
