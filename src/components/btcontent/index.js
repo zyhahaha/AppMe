@@ -55,6 +55,7 @@ export default () => {
             method: 'POST',
             data: { keyword, pageIndex, pageSize, status, hot_count }
         };
+        setLoadingVisible(true);
         axios(options).then(response => {
             // console.log(response.data.data.total, response.data.data.parseTotal, response.data.data.list)
             const resData = response.data.data
@@ -71,6 +72,7 @@ export default () => {
             }, 0)
         }).catch(error => { }).finally(() => {
             nextFn && nextFn()
+            setLoadingVisible(false);
         })
     }
 
@@ -92,9 +94,9 @@ export default () => {
             queryDataServer(keyword)
         }
     };
-    const toggleLodingDialog = () => {
-        setLoadingVisible(!lodingVisible);
-    };
+    // const toggleLodingDialog = () => {
+    //     setLoadingVisible(!lodingVisible);
+    // };
     return (
         <>
             <SafeAreaView>
@@ -104,7 +106,6 @@ export default () => {
                         overlayStyle={{
                             height: 200
                         }}
-                        onBackdropPress={toggleLodingDialog}
                     >
                         <Dialog.Loading
                             loadingStyle={{
