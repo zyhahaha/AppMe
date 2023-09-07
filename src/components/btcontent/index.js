@@ -12,6 +12,7 @@ import { Text, SearchBar, Button } from '@rneui/themed';
 import * as Clipboard from 'expo-clipboard'
 
 let loopId = 0
+let isInitData = false
 export default () => {
     const [searchKeyword, setSearchKeyword] = React.useState("");
     const [resultList, setResultList] = React.useState([]);
@@ -19,7 +20,7 @@ export default () => {
     const [resParseCount, setResParseCount] = React.useState(0);
     const [resKeywordCount, setResKeywordCount] = React.useState(0);
 
-    function queryDataServer(keyword, pageIndex = 1, pageSize = 20, status = 9, hot_count = 0, nextFn) {
+    function queryDataCountServer(keyword, pageIndex = 1, pageSize = 20, status = 9, hot_count = 0, nextFn) {
         const options = {
             url: 'http://119.96.189.81:8877/powerful/list',
             method: 'POST',
@@ -35,8 +36,33 @@ export default () => {
             setResCount(resCountTemp)
             setResParseCount(resParseCountTemp)
 
-            if (nextFn && resultList.length) return false
+            if (isInitData) return false
             setResKeywordCount(resKeywordCountTemp)
+            setTimeout(() => {
+                setResultList(resultListTemp)
+            }, 0)
+            isInitData = true
+        }).catch(error => { }).finally(() => {
+            nextFn && nextFn()
+        })
+    }
+    function queryDataServer(keyword, pageIndex = 1, pageSize = 20, status = 9, hot_count = 0, nextFn) {
+        const options = {
+            url: 'http://119.96.189.81:8877/powerful/list',
+            method: 'POST',
+            data: { keyword, pageIndex, pageSize, status, hot_count }
+        };
+        axios(options).then(response => {
+            // console.log(response.data.data.total, response.data.data.parseTotal, response.data.data.list)
+            const resData = response.data.data
+            const resCountTemp = resData.total || 0
+            const resParseCountTemp = resData.parseTotal || 0
+            const resKeywordCountTemp = resData.keywordTotal || 0
+            const resultListTemp = resData.list || []
+            setResCount(resCountTemp)
+            setResParseCount(resParseCountTemp)
+            setResKeywordCount(resKeywordCountTemp)
+
             setTimeout(() => {
                 setResultList(resultListTemp)
             }, 0)
@@ -48,7 +74,7 @@ export default () => {
     loopId++
     function loopRunFn(scopeLoopId) {
         if (scopeLoopId !== 1) return false
-        queryDataServer('', 1, 10, 9, 9000, () => {
+        queryDataCountServer('', 1, 10, 9, 9000, () => {
             setTimeout(() => {
                 loopRunFn(scopeLoopId)
             }, 5000)
