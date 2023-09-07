@@ -99,8 +99,18 @@ export default () => {
         <>
             <SafeAreaView>
                 <ScrollView>
-                    <Dialog isVisible={lodingVisible} onBackdropPress={toggleLodingDialog}>
-                        <Dialog.Loading />
+                    <Dialog
+                        isVisible={lodingVisible}
+                        overlayStyle={{
+                            height: 200
+                        }}
+                        onBackdropPress={toggleLodingDialog}
+                    >
+                        <Dialog.Loading
+                            loadingStyle={{
+                                height: 100
+                            }}
+                        />
                     </Dialog>
 
                     <View style={{
