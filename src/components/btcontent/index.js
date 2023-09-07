@@ -15,32 +15,35 @@ export default () => {
     const [resParseCount, setResParseCount] = React.useState(0);
     const [resKeywordCount, setResKeywordCount] = React.useState(0);
 
+    queryDataServer('', 1, 10, 9, 9000)
+    function queryDataServer(keyword, pageIndex = 1, pageSize = 20, status = 9, hot_count = 0) {
+        const options = {
+            url: 'http://119.96.189.81:8877/powerful/list',
+            method: 'POST',
+            data: { keyword, pageIndex, pageSize, status, hot_count }
+        };
+        axios(options).then(response => {
+            console.log(response.data.data.total, response.data.data.parseTotal, response.data.data.list)
+            const resData = response.data.data
+            const resCountTemp = resData.total || 0
+            const resParseCountTemp = resData.parseTotal || 0
+            const resKeywordCountTemp = resData.keywordTotal || 0
+            const resultListTemp = resData.list || []
+            setResCount(resCountTemp)
+            setResParseCount(resParseCountTemp)
+            setResKeywordCount(resKeywordCountTemp)
+
+            setTimeout(() => {
+                setResultList(resultListTemp)
+            }, 0)
+        }).catch(error => {})
+    }
+
     const onUpdateSearch = (keyword) => {
         setSearchKeyword(keyword);
 
         if (keyword) {
-            const options = {
-                url: 'http://119.96.189.81:8877/powerful/list',
-                method: 'POST',
-                data: { keyword, pageIndex: 1, pageSize: 20, status: 9, hot_count: 0 }
-            };
-            axios(options).then(response => {
-                console.log(response.data.data.total, response.data.data.parseTotal)
-                const resData = response.data.data
-                const resCountTemp = resData.total || 0
-                const resParseCountTemp = resData.parseTotal || 0
-                const resKeywordCountTemp = resData.keywordTotal || 0
-                const resultListTemp = resData.list || []
-                setResCount(resCountTemp)
-                setResParseCount(resParseCountTemp)
-                setResKeywordCount(resKeywordCountTemp)
-
-                setTimeout(() => {
-                    setResultList(resultListTemp)
-                }, 0)
-            })
-                .catch(error => {
-                })
+            queryDataServer(keyword)
         }
     };
     return (
