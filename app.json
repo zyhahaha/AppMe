@@ -35,7 +35,7 @@
     "androidStatusBar": {
       "backgroundColor": "#00000088",
       "barStyle": "dark-content",
-      "translucent": true,
+      "translucent": false,
       "hidden": false
     }
   }

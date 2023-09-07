@@ -27,9 +27,45 @@ export default () => {
             <SafeAreaView>
                 <ScrollView>
                     <View style={{
-                        paddingTop: 100
+                        paddingTop: 100,
+                        paddingBottom: 30
                     }}>
+                        {/* <Text style={{
+                            width: '100%',
+                            fontSize: 22,
+                            textAlign: 'center'
+                        }}>总数据</Text> */}
+                        <Text style={{
+                            width: '100%',
+                            fontSize: 30,
+                            fontWeight: 'bold',
+                            textAlign: 'center',
+                            color: 'rgb(173, 20, 87)'
+                        }}>394898213</Text>
+                        <Text style={{
+                            width: '100%',
+                            fontSize: 14,
+                            textAlign: 'center',
+                            color: 'rgb(134, 147, 158)'
+                        }}>已解析：234234</Text>
+                        {/* <Text style={{
+                            width: '100%',
+                            fontSize: 14,
+                            textAlign: 'center'
+                        }}>453453</Text> */}
 
+                        {/* <PricingCard
+                            color={lightColors.primary}
+                            title="Free"
+                            price="82394898213"
+                            info={['453453']}
+                            button={{ title: ' GET STARTED', icon: 'flight-takeoff' }}
+
+                            containerStyle={{
+                                backgroundColor: 'transparent',
+                                borderColor: '#F5F5F5'
+                            }}
+                        /> */}
                     </View>
                     {/* 搜索关键字 */}
                     <View style={{
