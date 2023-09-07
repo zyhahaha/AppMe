@@ -34,8 +34,9 @@ export default () => {
             const resultListTemp = resData.list || []
             setResCount(resCountTemp)
             setResParseCount(resParseCountTemp)
-            setResKeywordCount(resKeywordCountTemp)
 
+            if (nextFn && resultList.length) return false
+            setResKeywordCount(resKeywordCountTemp)
             setTimeout(() => {
                 setResultList(resultListTemp)
             }, 0)
