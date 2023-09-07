@@ -163,7 +163,7 @@ export default () => {
                                                     width: '100%',
                                                     fontSize: 14,
                                                     textAlign: 'right'
-                                                }}>文件大小：{resultItem.content_three}</Text>
+                                                }}>文件大小：{Math.floor(resultItem.content_three / 1024 / 1024)}MB</Text>
                                             </View>
                                         </View>
                                         <View style={{
