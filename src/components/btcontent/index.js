@@ -28,26 +28,31 @@ export default () => {
             data: { keyword, pageIndex, pageSize, status, hot_count }
         };
         !isInitData && setLoadingVisible(true);
-        axios(options).then(response => {
-            // console.log(response.data.data.total, response.data.data.parseTotal, response.data.data.list)
-            const resData = response.data.data
-            const resCountTemp = resData.total || 0
-            const resParseCountTemp = resData.parseTotal || 0
-            const resKeywordCountTemp = resData.keywordTotal || 0
-            const resultListTemp = resData.list || []
-            setResCount(resCountTemp)
-            setResParseCount(resParseCountTemp)
-
-            if (isInitData) return false
-            setResKeywordCount(resKeywordCountTemp)
-            setTimeout(() => {
-                setResultList(resultListTemp)
-            }, 0)
-            isInitData = true
-        }).catch(error => { }).finally(() => {
+        try {
+            axios(options).then(response => {
+                // console.log(response.data.data.total, response.data.data.parseTotal, response.data.data.list)
+                const resData = response.data.data
+                const resCountTemp = resData.total || 0
+                const resParseCountTemp = resData.parseTotal || 0
+                const resKeywordCountTemp = resData.keywordTotal || 0
+                const resultListTemp = resData.list || []
+                setResCount(resCountTemp)
+                setResParseCount(resParseCountTemp)
+    
+                if (isInitData) return false
+                setResKeywordCount(resKeywordCountTemp)
+                setTimeout(() => {
+                    setResultList(resultListTemp)
+                }, 0)
+                isInitData = true
+            }).catch(error => { }).finally(() => {
+                nextFn && nextFn()
+                setLoadingVisible(false);
+            })
+        } catch (error) {
             nextFn && nextFn()
             setLoadingVisible(false);
-        })
+        }
     }
     function queryDataServer(keyword, pageIndex = 1, pageSize = 20, status = 9, hot_count = 0, nextFn) {
         const options = {
@@ -56,24 +61,29 @@ export default () => {
             data: { keyword, pageIndex, pageSize, status, hot_count }
         };
         setLoadingVisible(true);
-        axios(options).then(response => {
-            // console.log(response.data.data.total, response.data.data.parseTotal, response.data.data.list)
-            const resData = response.data.data
-            const resCountTemp = resData.total || 0
-            const resParseCountTemp = resData.parseTotal || 0
-            const resKeywordCountTemp = resData.keywordTotal || 0
-            const resultListTemp = resData.list || []
-            setResCount(resCountTemp)
-            setResParseCount(resParseCountTemp)
-            setResKeywordCount(resKeywordCountTemp)
-
-            setTimeout(() => {
-                setResultList(resultListTemp)
-            }, 0)
-        }).catch(error => { }).finally(() => {
+        try {
+            axios(options).then(response => {
+                // console.log(response.data.data.total, response.data.data.parseTotal, response.data.data.list)
+                const resData = response.data.data
+                const resCountTemp = resData.total || 0
+                const resParseCountTemp = resData.parseTotal || 0
+                const resKeywordCountTemp = resData.keywordTotal || 0
+                const resultListTemp = resData.list || []
+                setResCount(resCountTemp)
+                setResParseCount(resParseCountTemp)
+                setResKeywordCount(resKeywordCountTemp)
+    
+                setTimeout(() => {
+                    setResultList(resultListTemp)
+                }, 0)
+            }).catch(error => { }).finally(() => {
+                nextFn && nextFn()
+                setLoadingVisible(false);
+            })
+        } catch (error) {
             nextFn && nextFn()
             setLoadingVisible(false);
-        })
+        }
     }
 
     loopId++
