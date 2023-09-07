@@ -87,11 +87,9 @@ export default () => {
     }
     loopRunFn(loopId)
 
-    const onUpdateSearch = (keyword) => {
-        setSearchKeyword(keyword);
-
-        if (keyword) {
-            queryDataServer(keyword)
+    const onSearch = () => {
+        if (searchKeyword) {
+            queryDataServer(searchKeyword)
         }
     };
     // const toggleLodingDialog = () => {
@@ -138,7 +136,8 @@ export default () => {
                         <SearchBar
                             platform="ios"
                             placeholder="输入关键字"
-                            onChangeText={onUpdateSearch}
+                            onSubmitEditing={onSearch}
+                            onChangeText={keyword => setSearchKeyword(keyword)}
                             value={searchKeyword}
                             cancelButtonTitle="取消"
                             cancelButtonProps={{
