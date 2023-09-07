@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import { Text, SearchBar } from '@rneui/themed';
 
+let loopId = 0
 export default () => {
     const [searchKeyword, setSearchKeyword] = React.useState("");
     const [resultList, setResultList] = React.useState([]);
@@ -15,8 +16,7 @@ export default () => {
     const [resParseCount, setResParseCount] = React.useState(0);
     const [resKeywordCount, setResKeywordCount] = React.useState(0);
 
-    queryDataServer('', 1, 10, 9, 9000)
-    function queryDataServer(keyword, pageIndex = 1, pageSize = 20, status = 9, hot_count = 0) {
+    function queryDataServer(keyword, pageIndex = 1, pageSize = 20, status = 9, hot_count = 0, nextFn) {
         const options = {
             url: 'http://119.96.189.81:8877/powerful/list',
             method: 'POST',
@@ -36,8 +36,21 @@ export default () => {
             setTimeout(() => {
                 setResultList(resultListTemp)
             }, 0)
-        }).catch(error => {})
+        }).catch(error => { }).finally(() => {
+            nextFn && nextFn()
+        })
     }
+
+    loopId ++
+    function loopRunFn() {
+        if (loopId !== 1) return false
+        queryDataServer('', 1, 10, 9, 9000, () => {
+            setTimeout(() => {
+                loopRunFn()
+            }, 5000)
+        })
+    }
+    loopRunFn()
 
     const onUpdateSearch = (keyword) => {
         setSearchKeyword(keyword);
@@ -94,14 +107,14 @@ export default () => {
                         />
                     </View>
                     {
-                        searchKeyword && (
+                        resKeywordCount && (
                             <View style={{ marginLeft: 10 }}>
                                 <Text>搜索结果共{resKeywordCount}条</Text>
                             </View>
                         )
                     }
                     {
-                        searchKeyword && resultList.map((resultItem, resultIndex) => {
+                        resultList.map((resultItem, resultIndex) => {
                             return (
                                 <View key={resultIndex.toString()} style={{
                                     marginTop: 15,
