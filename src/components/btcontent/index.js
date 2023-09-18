@@ -23,7 +23,7 @@ export default () => {
 
     function queryDataCountServer(keyword, pageIndex = 1, pageSize = 20, status = 9, hot_count = 0, nextFn) {
         const options = {
-            url: 'http://119.96.189.81:8877/powerful/list',
+            url: 'http://1.94.7.83:8877/powerful/list',
             method: 'POST',
             data: { keyword, pageIndex, pageSize, status, hot_count }
         };
@@ -56,7 +56,7 @@ export default () => {
     }
     function queryDataServer(keyword, pageIndex = 1, pageSize = 20, status = 9, hot_count = 0, nextFn) {
         const options = {
-            url: 'http://119.96.189.81:8877/powerful/list',
+            url: 'http://1.94.7.83:8877/powerful/list',
             method: 'POST',
             data: { keyword, pageIndex, pageSize, status, hot_count }
         };
