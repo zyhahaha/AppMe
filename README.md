@@ -23,3 +23,4 @@ https://docs.expo.dev/versions/latest/config/app/#androidstatusbar
 
 # Screenshot
 ![icon](https://github.com/zyhahaha/AppMe/blob/master/assets/screenshot/default.jpg)
+![icon](https://github.com/zyhahaha/AppMe/blob/master/assets/screenshot/search.jpg)
