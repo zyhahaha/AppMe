@@ -21,3 +21,5 @@ java -jar bundletool.jar build-apks --bundle=nhl.aab --output=nhl.apks --ks=@zy9
 # 配置安卓状态栏
 https://docs.expo.dev/versions/latest/config/app/#androidstatusbar
 
+# Screenshot
+![icon](https://github.com/zyhahaha/AppMe/blob/master/assets/screenshot/default.jpg)
