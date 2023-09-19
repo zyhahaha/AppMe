@@ -22,5 +22,5 @@ java -jar bundletool.jar build-apks --bundle=nhl.aab --output=nhl.apks --ks=@zy9
 https://docs.expo.dev/versions/latest/config/app/#androidstatusbar
 
 # Screenshot
-![icon](https://github.com/zyhahaha/AppMe/blob/master/assets/screenshot/default.jpg)
-![icon](https://github.com/zyhahaha/AppMe/blob/master/assets/screenshot/search.jpg)
+<img src="https://github.com/zyhahaha/AppMe/blob/master/assets/screenshot/default.jpg" width="350px">
+<img src="https://github.com/zyhahaha/AppMe/blob/master/assets/screenshot/search.jpg" width="350px">
