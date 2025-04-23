@@ -1,6 +1,3 @@
-# ABoa
-ABoa
-
 # Build
 eas whoami
 eas login
